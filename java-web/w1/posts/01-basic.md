@@ -54,3 +54,25 @@ WAS는 웹 서버의 역할도 수행
 - JSP에서 쿼리 스트링이나 파라미터를 처리X -> 서블릿을 통해 처리
 - JSP는 입력 화면이나 처리 결과를 보여주는 용도로만 사용
 - 직접 JSP 경로를 호출하지 않고 서블릿 경로를 통해 JSP 처리
+
+# Web MVC
+
+## MVC 구조
+
+- [InputController](../src/main/java/org/zerock/w1/calc/InputController.java)
+
+- [CalcController](../src/main/java/org/zerock/w1/calc/CalcController.java)
+
+### WEB-INF
+- 브라우저에서 직접 접근이 불가능한 경로
+
+## PRG(Post-Redirect-Get)
+- POST 호출이 반복 되는 것을 막는다
+
+
+### TODO
+- [TodoDTO](../src/main/java/org/zerock/w1/todo/dto/TodoDTO.java)
+
+- [TodoService](../src/main/java/org/zerock/w1/todo/TodoService.java)
+
+
