@@ -38,11 +38,6 @@ public class LoginCheckFilter implements Filter {
             return;
         }
 
-        if (session.getAttribute("loginInfo") == null) {
-            resp.sendRedirect("/login");
-            return;
-        }
-
         log.info("cookie는 존재");
         String uuid = cookie.getValue();
 
