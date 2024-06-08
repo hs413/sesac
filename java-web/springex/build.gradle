@@ -27,9 +27,9 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 
-    implementation 'org.springframework:spring-core:6.1.6'
-    implementation 'org.springframework:spring-context:6.1.6'
-    testImplementation 'org.springframework:spring-test:6.1.6'
+    implementation 'org.springframework:spring-core:5.3.27'
+    implementation 'org.springframework:spring-context:5.3.27'
+    testImplementation 'org.springframework:spring-test:5.3.27'
     compileOnly 'org.projectlombok:lombok:1.18.32'
     annotationProcessor 'org.projectlombok:lombok:1.18.32'
 
