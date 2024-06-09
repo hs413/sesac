@@ -29,7 +29,8 @@ dependencies {
 
     implementation 'org.springframework:spring-core:5.3.27'
     implementation 'org.springframework:spring-context:5.3.27'
-    testImplementation 'org.springframework:spring-test:5.3.27'
+    implementation 'org.springframework:spring-test:5.3.27'
+    implementation 'org.springframework:spring-webmvc:5.3.27'
     compileOnly 'org.projectlombok:lombok:1.18.32'
     annotationProcessor 'org.projectlombok:lombok:1.18.32'
 
@@ -42,6 +43,9 @@ dependencies {
 
     implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0'
     implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1'
+
+    implementation 'mysql:mysql-connector-java:8.0.28'
+    implementation 'com.zaxxer:HikariCP:5.1.0'
 }
 
 test {
