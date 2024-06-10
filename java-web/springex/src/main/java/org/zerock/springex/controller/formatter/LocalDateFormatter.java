@@ -1,4 +1,4 @@
-package org.zerock.springex.controller.formatters;
+package org.zerock.springex.controller.formatter;
 
 import org.springframework.format.Formatter;
 
