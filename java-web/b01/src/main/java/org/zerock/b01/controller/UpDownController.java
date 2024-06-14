@@ -10,8 +10,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.zerock.b01.dto.UploadFileDTO;
-import org.zerock.b01.dto.UploadResultDTO;
+import org.zerock.b01.dto.upload.UploadFileDTO;
+import org.zerock.b01.dto.upload.UploadResultDTO;
 
 import java.io.File;
 import java.io.IOException;
