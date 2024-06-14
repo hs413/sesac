@@ -27,7 +27,7 @@ public class BoardDTO {
     @NotEmpty
     private String writer;
 
-    private List<String> filenames;
+    private List<String> fileNames;
 
     private LocalDateTime regDate;
 

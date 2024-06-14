@@ -10,8 +10,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 @Log4j2
 class BoardServiceImplTest {
@@ -40,7 +38,7 @@ class BoardServiceImplTest {
                 .content("updated content 101")
                 .build();
 
-        boardDTO.setFilenames(Arrays.asList(UUID.randomUUID()+"_zzz.jpg"));
+        boardDTO.setFileNames(Arrays.asList(UUID.randomUUID()+"_zzz.jpg"));
 
         boardService.modify(boardDTO);
     }
@@ -68,7 +66,7 @@ class BoardServiceImplTest {
                 .writer("user00")
                 .build();
 
-        boardDTO.setFilenames(
+        boardDTO.setFileNames(
                 Arrays.asList(
                         UUID.randomUUID() + "_aaa.jpg",
                         UUID.randomUUID() + "_bbb.jpg",
@@ -88,7 +86,7 @@ class BoardServiceImplTest {
         BoardDTO boardDTO = boardService.readOne(bno);
         log.info(boardDTO);
 
-        for (String fileName : boardDTO.getFilenames()) {
+        for (String fileName : boardDTO.getFileNames()) {
             log.info(fileName);
         }
     }
@@ -112,7 +110,7 @@ class BoardServiceImplTest {
 
         dtoList.forEach(boardListAllDTO -> {
             log.info(boardListAllDTO.getBno()+":"+boardListAllDTO.getTitle());
-            
+
             if (boardListAllDTO.getBoardImages() != null) {
                 for (BoardImageDTO boardImage : boardListAllDTO.getBoardImages()) {
                     log.info(boardImage);
