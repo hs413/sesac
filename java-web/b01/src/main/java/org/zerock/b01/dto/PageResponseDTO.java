@@ -21,7 +21,7 @@ public class PageResponseDTO<E> {
 
     private List<E> dtoList;
 
-    @Builder(builderMethodName = "widthAll")
+    @Builder(builderMethodName = "withAll")
     public PageResponseDTO(PageRequestDTO pageRequestDTO, List<E> dtoList, int total) {
         if (total <= 0) return;
 
@@ -40,5 +40,4 @@ public class PageResponseDTO<E> {
         this.next = total > this.end * this.size;
 
     }
-
 }
