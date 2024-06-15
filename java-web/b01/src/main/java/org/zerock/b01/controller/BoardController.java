@@ -3,6 +3,7 @@ package org.zerock.b01.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +24,7 @@ import org.zerock.b01.service.BoardService;
 public class BoardController {
     private final BoardService boardService;
 
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/register")
     public void registerGet() {
 
