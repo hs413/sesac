@@ -1,5 +1,6 @@
 package org.zerock.b01.config;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -11,12 +12,19 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.zerock.b01.security.CustomUserDetailsService;
+
+import javax.sql.DataSource;
 
 @Log4j2
 @Configuration
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 @EnableMethodSecurity
 public class CustomSecurityConfig {
+    private final DataSource dataSource;
+    private final CustomUserDetailsService userDetailsService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -28,9 +36,21 @@ public class CustomSecurityConfig {
         log.info("----------configure----------");
 
 //        http.formLogin();
-        http.formLogin((formLogin) -> formLogin.loginPage("/member/login"));
+        http.formLogin(formLogin -> formLogin.loginPage("/member/login"));
 
         http.csrf(AbstractHttpConfigurer::disable);
+
+        http.rememberMe(httpSecurityRememberMeConfigurer -> httpSecurityRememberMeConfigurer
+                .key("12345678")
+                .tokenRepository(persistentTokenRepository())
+                .userDetailsService(userDetailsService)
+                .tokenValiditySeconds(60 * 60 * 24 * 30));
+
+//        http.rememberMe()
+//                .key("12345678")
+//                .tokenRepository(persistentTokenRepository())
+//                .userDetailsService(userDetailsService)
+//                .tokenValiditySeconds(60 * 60 * 24 * 30);
 
         return http.build();
     }
@@ -40,5 +60,12 @@ public class CustomSecurityConfig {
         log.info("----------web configure----------");
 
         return (web) -> web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+    }
+
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository() {
+        JdbcTokenRepositoryImpl repo = new JdbcTokenRepositoryImpl();
+        repo.setDataSource(dataSource);
+        return repo;
     }
 }
