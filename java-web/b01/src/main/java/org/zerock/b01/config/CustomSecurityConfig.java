@@ -13,10 +13,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.zerock.b01.security.CustomUserDetailsService;
 import org.zerock.b01.security.handler.Custom403Handler;
+import org.zerock.b01.security.handler.CustomSocialLoginSuccessHandler;
 
 import javax.sql.DataSource;
 
@@ -51,7 +53,10 @@ public class CustomSecurityConfig {
         http.exceptionHandling(exceptionHandlingConfigurer -> exceptionHandlingConfigurer
                 .accessDeniedHandler(accessDeniedHandler()));
 
-        http.oauth2Login(configurer -> configurer.loginPage("/member/login"));
+        http.oauth2Login(configurer -> configurer
+                .loginPage("/member/login")
+                .successHandler(authenticationSuccessHandler())
+        );
 
         return http.build();
     }
@@ -73,5 +78,10 @@ public class CustomSecurityConfig {
         JdbcTokenRepositoryImpl repo = new JdbcTokenRepositoryImpl();
         repo.setDataSource(dataSource);
         return repo;
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+        return new CustomSocialLoginSuccessHandler(passwordEncoder());
     }
 }

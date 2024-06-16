@@ -1,4 +1,4 @@
-package org.zerock.b01.dto;
+package org.zerock.b01.security.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -22,8 +22,7 @@ public class MemberSecurityDTO extends User implements OAuth2User {
 
     private Map<String, Object> props;
 
-    public MemberSecurityDTO(String username, String password, String email,
-                             boolean del, boolean social,
+    public MemberSecurityDTO(String username, String password, String email, boolean del, boolean social,
                              Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
 
