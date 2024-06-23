@@ -29,6 +29,7 @@ public class JWTUtil {
         payloads.putAll(valueMap);
 
         int time = (60 * 24) * days;
+//        int time = 1;
 
         String jwtStr = Jwts.builder()
                 .setHeader(headers)
