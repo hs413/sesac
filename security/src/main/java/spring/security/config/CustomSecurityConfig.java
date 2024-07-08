@@ -16,6 +16,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -25,6 +26,7 @@ import spring.security.security.filter.APILoginFilter;
 import spring.security.security.filter.RefreshTokenFilter;
 import spring.security.security.filter.TokenCheckFilter;
 import spring.security.security.handler.APILoginSuccessHandler;
+import spring.security.security.handler.CustomSocialLoginSuccessHandler;
 import spring.security.util.JWTUtil;
 
 import java.util.List;
@@ -68,6 +70,12 @@ public class CustomSecurityConfig {
 
         http.authenticationManager(authenticationManager);
 
+        http.oauth2Login(oauth2 -> oauth2//.userInfoEndpoint(
+//                userInfoEndpointConfig -> userInfoEndpointConfig.userService(
+//                        customOAuth2UserService))
+                        .successHandler(authenticationSuccessHandler())
+        );
+
         APILoginFilter apiLoginFilter = new APILoginFilter("/generateToken");
         apiLoginFilter.setAuthenticationManager(authenticationManager);
 
@@ -109,5 +117,10 @@ public class CustomSecurityConfig {
 
     private TokenCheckFilter tokenCheckFilter(JWTUtil jwtUtil) {
         return new TokenCheckFilter(jwtUtil);
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+        return new CustomSocialLoginSuccessHandler(passwordEncoder());
     }
 }
