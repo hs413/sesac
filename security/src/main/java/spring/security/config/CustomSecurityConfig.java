@@ -77,7 +77,7 @@ public class CustomSecurityConfig {
         http.addFilterBefore(apiLoginFilter, UsernamePasswordAuthenticationFilter.class);
 
         http.addFilterBefore(
-                tokenCheckFilter(jwtUtil, apiUserDetailsService),
+                tokenCheckFilter(jwtUtil),
                 UsernamePasswordAuthenticationFilter.class
         );
 
@@ -107,7 +107,7 @@ public class CustomSecurityConfig {
         return source;
     }
 
-    private TokenCheckFilter tokenCheckFilter(JWTUtil jwtUtil, APIUserDetailsService apiUserDetailsService) {
-        return new TokenCheckFilter(apiUserDetailsService, jwtUtil);
+    private TokenCheckFilter tokenCheckFilter(JWTUtil jwtUtil) {
+        return new TokenCheckFilter(jwtUtil);
     }
 }

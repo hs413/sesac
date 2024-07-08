@@ -16,7 +16,6 @@ import java.util.List;
 @SecurityRequirement(name = "Authorization")
 public class SampleController {
     @Operation(summary = "Sample GET doA")
-    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/doA")
     public List<String> doA(Principal principal) {
 //        System.out.println(principal);
@@ -24,7 +23,6 @@ public class SampleController {
         return Arrays.asList("AAA", "BBB", "CCC");
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/doB")
     public List<String> doB() {
         return Arrays.asList("adminAAA", "adminBBB", "adminCCC");

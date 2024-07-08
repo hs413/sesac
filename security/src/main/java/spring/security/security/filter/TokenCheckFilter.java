@@ -9,11 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
-import spring.security.security.APIUserDetailsService;
 import spring.security.security.exception.AccessTokenException;
 import spring.security.util.JWTUtil;
 
@@ -23,7 +19,6 @@ import java.util.Map;
 @Log4j2
 @RequiredArgsConstructor
 public class TokenCheckFilter extends OncePerRequestFilter {
-    private final APIUserDetailsService apiUserDetailsService;
     private final JWTUtil jwtUtil;
 
     @Override
@@ -41,19 +36,7 @@ public class TokenCheckFilter extends OncePerRequestFilter {
         log.info("JWTUtil" + jwtUtil);
 
         try {
-            Map<String, Object> payload = validateAccessToken(request);
-
-            String mid = (String) payload.get("mid");
-
-            log.info("mid: " + mid);
-
-            UserDetails userDetails = apiUserDetailsService.loadUserByUsername(mid);
-
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                    userDetails, null, userDetails.getAuthorities());
-
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-
+            validateAccessToken(request);
             filterChain.doFilter(request, response);
         } catch (AccessTokenException accessTokenException) {
             accessTokenException.sendResponseError(response);
