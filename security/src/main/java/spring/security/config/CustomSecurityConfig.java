@@ -70,11 +70,8 @@ public class CustomSecurityConfig {
 
         http.authenticationManager(authenticationManager);
 
-        http.oauth2Login(oauth2 -> oauth2//.userInfoEndpoint(
-//                userInfoEndpointConfig -> userInfoEndpointConfig.userService(
-//                        customOAuth2UserService))
-                        .successHandler(authenticationSuccessHandler())
-        );
+        http.oauth2Login(oauth2 -> oauth2.successHandler(
+                authenticationSuccessHandler()));
 
         APILoginFilter apiLoginFilter = new APILoginFilter("/generateToken");
         apiLoginFilter.setAuthenticationManager(authenticationManager);
@@ -121,6 +118,6 @@ public class CustomSecurityConfig {
 
     @Bean
     public AuthenticationSuccessHandler authenticationSuccessHandler() {
-        return new CustomSocialLoginSuccessHandler(passwordEncoder());
+        return new CustomSocialLoginSuccessHandler(jwtUtil, passwordEncoder());
     }
 }
