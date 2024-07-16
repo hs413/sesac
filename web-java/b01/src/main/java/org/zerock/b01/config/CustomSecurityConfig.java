@@ -41,7 +41,8 @@ public class CustomSecurityConfig {
 
         http.authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests
-                        .requestMatchers("member/login", "/error").permitAll()
+                        .requestMatchers("/member/login", "/error").permitAll()
+                        .requestMatchers("/member/join", "/error").permitAll()
                         .requestMatchers("/board/*", "/view/*").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form
@@ -57,6 +58,8 @@ public class CustomSecurityConfig {
         );
 
         http.exceptionHandling(exception -> exception.accessDeniedHandler(accessDeniedHandler()));
+
+        http.oauth2Login(oauth -> oauth.loginPage("/member/login"));
 
         return http.build();
     }
