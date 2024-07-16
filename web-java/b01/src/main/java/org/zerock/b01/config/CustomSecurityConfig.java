@@ -12,10 +12,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.zerock.b01.security.CustomUserDetailsService;
 import org.zerock.b01.security.handler.Custom403Handler;
+import org.zerock.b01.security.handler.CustomSocialLoginSuccessHandler;
 
 import javax.sql.DataSource;
 
@@ -51,17 +53,25 @@ public class CustomSecurityConfig {
 
         http.csrf(auth -> auth.disable());
 
-        http.rememberMe(rememberMe -> rememberMe.key("12345678")
-                .tokenRepository(persistentTokenRepository())
-                .userDetailsService(userDetailsService)
-                .tokenValiditySeconds(60 * 60 * 24 * 30)
-        );
+//        http.rememberMe(rememberMe -> rememberMe.key("12345678")
+//                .tokenRepository(persistentTokenRepository())
+//                .userDetailsService(userDetailsService)
+//                .tokenValiditySeconds(60 * 60 * 24 * 30)
+//        );
 
         http.exceptionHandling(exception -> exception.accessDeniedHandler(accessDeniedHandler()));
 
-        http.oauth2Login(oauth -> oauth.loginPage("/member/login"));
+        http.oauth2Login(oauth -> oauth
+                .loginPage("/member/login")
+                .successHandler(authenticationSuccessHandler())
+        );
 
         return http.build();
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+        return new CustomSocialLoginSuccessHandler(passwordEncoder());
     }
 
     @Bean
